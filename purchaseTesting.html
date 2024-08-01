@@ -160,8 +160,9 @@
             const idToken = response.credential;
             const decodedToken = decodeJwtResponse(idToken);
             const email = decodedToken.email;
-            console.log("用户邮箱: " + email);
+            // console.log("用户邮箱: " + email);
 
+            showPurchaseSection(email);
             // console.log("Received :", response);
             // console.log("Received :", response.profile);
 

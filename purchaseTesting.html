@@ -158,7 +158,7 @@
 
         function handleCredentialResponse(response) {
             const idToken = response.credential;
-            const decodedToken = decodeJwtResponse(credential);
+            const decodedToken = decodeJwtResponse(idToken);
             const email = decodedToken.email;
             console.log("用户邮箱: " + email);
 

@@ -157,10 +157,10 @@
 
         function handleCredentialResponse(response) {
             const idToken = response.credential;
-            const email = response.profile.email;
 
             console.log("Received :", response);
             console.log("Received :", response.profile);
+            
             // loginWithGoogleIdToken(idToken);
         }
 

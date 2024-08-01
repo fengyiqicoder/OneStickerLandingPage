@@ -164,7 +164,7 @@
         async function loginWithGoogleIdToken(idToken) {
             try {
                 document.getElementById('loading').style.display = 'block';
-                const credentials = Realm.Credentials.jwt({ idToken });
+                // const credentials = Realm.Credentials.jwt({ idToken });
                 // const user = await app.logIn(credentials); //Hack 其实并不需要Google登录过Realm哈哈
                 // console.assert(user.id === app.currentUser.id);
                 showPurchaseSection(user.profile.email);

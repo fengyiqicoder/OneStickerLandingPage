@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
-    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
         body,
@@ -140,39 +140,41 @@
                 <button onclick="shareLink()"><i class="fas fa-share-alt"></i>Share the link to get OneSticker Plus
                 </button>
                 <button onclick="purchasePayPal()"><i class="fab fa-paypal"></i>Purchase OneSticker (PayPal) </button>
-                <button onclick="purchaseWeChat()"><i class="fab fa-weixin"></i>Purchase OneSticker (Wechat Pay)
+                <button onclick="purchaseWeChat()"><i class="fab fa-weixin"></i>Purchase OneSticker (WeChat Pay)
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- <div id="g_id_onload"
-         data-client_id="229028300901-mlof4eenp3f6j1qlssgodpj9ndrgaa3n.apps.googleusercontent.com"
-         data-callback="handleCredentialsResponse"
-         data-auto_select="true"
-         data-itp_support="true">
-    </div> -->
+    <div id="g_id_onload"
+         data-client_id="229028300901-99c3ioni98phea6fls4vpdithv29466k.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
 
     <script>
         const APP_ID = "onestickertesting-qslvg";
-        const app = new Realm.App({
-            id: APP_ID
-        });
+        const app = new Realm.App({ id: APP_ID });
 
-        // async function handleCredentialsResponse(response) {
-        //     try {
-        //         document.getElementById('loading').style.display = 'block';
-        //         const credentials = Realm.Credentials.google({ idToken: response.credential });
-        //         const user = await app.logIn(credentials);
-        //         console.assert(user.id === app.currentUser.id);
-        //         showPurchaseSection(user.profile.email);
-        //     } catch (error) {
-        //         console.error("Google login failed", error);
-        //         alert("Google login failed: " + error.message);
-        //     } finally {
-        //         document.getElementById('loading').style.display = 'none';
-        //     }
-        // }
+        function handleCredentialResponse(response) {
+            const idToken = response.credential;
+            console.log("Received ID Token:", idToken);
+            loginWithGoogleIdToken(idToken);
+        }
+
+        async function loginWithGoogleIdToken(idToken) {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                const credentials = Realm.Credentials.jwt({ idToken });
+                const user = await app.logIn(credentials);
+                console.assert(user.id === app.currentUser.id);
+                showPurchaseSection(user.profile.email);
+            } catch (error) {
+                console.error("Google login failed", error);
+                alert("Google login failed: " + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
 
         async function loginEmailPassword(email, password) {
             try {
@@ -189,25 +191,11 @@
                 document.getElementById('loading').style.display = 'none';
             }
         }
-        async function signInWithGoogle() {
-            try {
-                document.getElementById('loading').style.display = 'block';
-                const redirectUrl = window.location.origin + "/auth"; // Make sure this matches your setup
-                const credentials = Realm.Credentials.google({
-                    redirectUrl
-                });
-                const user = await app.logIn(credentials);
-                console.assert(user.id === app.currentUser.id);
-                showPurchaseSection(user.profile.email);
-            } catch (error) {
-                console.error("Google login failed", error);
-                alert("Google login failed: " + error.message);
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-            }
+
+        function signInWithGoogle() {
+            google.accounts.id.prompt();
         }
 
-        // Update the login function
         async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -217,9 +205,6 @@
                 alert("Please enter both email and password.");
             }
         }
-
-        // Remove or comment out the Google One Tap related code
-        // google.accounts.id.prompt();
 
         function showPurchaseSection(email) {
             document.getElementById('loginSection').style.display = 'none';

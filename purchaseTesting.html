@@ -147,7 +147,7 @@
     </div>
 
     <div id="g_id_onload"
-         data-client_id="229028300901-99c3ioni98phea6fls4vpdithv29466k.apps.googleusercontent.com"
+         data-client_id="229028300901-mlof4eenp3f6j1qlssgodpj9ndrgaa3n.apps.googleusercontent.com"
          data-callback="handleCredentialResponse">
     </div>
 
@@ -193,6 +193,7 @@
         }
 
         function signInWithGoogle() {
+            document.getElementById('loading').style.display = 'block';
             google.accounts.id.prompt();
         }
 

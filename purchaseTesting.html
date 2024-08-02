@@ -10,9 +10,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=BAAdioSmqXPMvVZOTX_rpLw3deRTgt1TKPqmiNCzAOmc-imZLJGm6kfXHHtnDhPaAj3DzADTIpRIYBaEuE&components=hosted-buttons&disable-funding=venmo&currency=USD">
+    </script>
 
     <style>
-        body,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f000;
+            font-family: 'Outfit', sans-serif;
+        }
+
         html {
             height: 100%;
             margin: 0;
@@ -20,9 +33,25 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #f0f0f0;
-            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e, #9982cf, #fdb5e9);
+            background-size: 600% 600%;
+            animation: animateGradient 6s ease-in-out infinite;
         }
+
+        @keyframes animateGradient {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
 
         .container {
             display: flex;
@@ -115,6 +144,53 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 24px auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px;
+            /* height: 50%; */
+            /* Could be more or less, depending on screen size */
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -139,7 +215,8 @@
                 <p id="expirationDate"></p>
                 <button onclick="shareLink()"><i class="fas fa-share-alt"></i>Share the link to get OneSticker Plus
                 </button>
-                <button onclick="purchasePayPal()"><i class="fab fa-paypal"></i>Purchase OneSticker Plus (PayPal) </button>
+                <button onclick="purchasePayPal()"><i class="fab fa-paypal"></i>Purchase OneSticker Plus (PayPal)
+                </button>
                 <button onclick="purchaseWeChat()"><i class="fab fa-weixin"></i>Purchase OneSticker Plus (WeChatPay)
                 </button>
             </div>
@@ -149,6 +226,16 @@
     <div id="g_id_onload" data-client_id="229028300901-mlof4eenp3f6j1qlssgodpj9ndrgaa3n.apps.googleusercontent.com"
         data-callback="handleCredentialResponse">
     </div>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modal-body">
+            </div>
+        </div>
+    </div>
+
 
     <script>
         const APP_ID = "onestickertesting-qslvg";
@@ -253,17 +340,52 @@
             }
         }
 
+        function showModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // 更新按钮的点击事件
         function shareLink() {
-            alert("Share link feature to be implemented");
+            showModal();
+            // 更新模态框内容
+            document.querySelector('.modal-content p').textContent = 'Share link feature to be implemented';
         }
 
         function purchasePayPal() {
-            alert("PayPal purchase feature to be implemented");
+            // 显示模态框
+            showModal();
+
+            // 清除 modal-body 内容，并准备放置 PayPal 按钮
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML =
+                '<div id="paypal-container-PXHZCYN8YBZWC"></div><div id="paypal-container-4AXG8ZA7US7U8"></div><div id="paypal-container-8U9P6JDDAMFF2"></div>';
+
+            // 动态加载 PayPal 脚本并渲染按钮
+
+            paypal.HostedButtons({
+                hostedButtonId: "PXHZCYN8YBZWC",
+            }).render("#paypal-container-PXHZCYN8YBZWC");
+
+            paypal.HostedButtons({
+                hostedButtonId: "4AXG8ZA7US7U8",
+            }).render("#paypal-container-4AXG8ZA7US7U8");
+
+            paypal.HostedButtons({
+                hostedButtonId: "8U9P6JDDAMFF2",
+            }).render("#paypal-container-8U9P6JDDAMFF2");
         }
 
+
         function purchaseWeChat() {
-            alert("WeChat Pay purchase feature to be implemented");
+            showModal();
+            // 更新模态框内容
+            document.querySelector('.modal-content p').textContent = 'WeChat Pay purchase feature to be implemented';
         }
+
 
         function decodeJwtResponse(token) {
             var base64Url = token.split('.')[1];

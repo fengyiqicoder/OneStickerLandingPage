@@ -222,7 +222,7 @@
         async function fetchValidUntil(email) {
             try {
                 const response = await fetch(
-                    `http://192.210.174.125/check_validity/?email=${encodeURIComponent(email)}`);
+                    `https://api.onesticker.app/check_validity/?email=${encodeURIComponent(email)}`);
                 const data = await response.json();
                 if (data.valid_until) {
                     return new Date(data.valid_until * 1000); // 将时间戳转换为Date对象

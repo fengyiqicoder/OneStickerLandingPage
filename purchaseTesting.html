@@ -26,6 +26,7 @@
             font-family: 'Outfit', sans-serif;
         }
 
+        
         html {
             height: 100%;
             margin: 0;
@@ -33,10 +34,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e, #9982cf, #fdb5e9);
-            background-size: 600% 600%;
-            animation: animateGradient 6s ease-in-out infinite;
-        }
+            background-color: #E3EBEE;
+           
+        } 
+           
 
         @keyframes animateGradient {
             0% {
@@ -324,6 +325,7 @@
         }
 
         async function showPurchaseSection(email) {
+            applyGradientBackground(); // 应用渐变背景
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('purchaseSection').style.display = 'block';
             document.getElementById('mainTitle').innerText = '';
@@ -386,6 +388,18 @@
             document.querySelector('.modal-content p').textContent = 'WeChat Pay purchase feature to be implemented';
         }
 
+        function applyGradientBackground() {
+            document.documentElement.style.height = "100%";
+            document.documentElement.style.margin = "0";
+            document.documentElement.style.display = "flex";
+            document.documentElement.style.flexDirection = "column";
+            document.documentElement.style.justifyContent = "center";
+            document.documentElement.style.alignItems = "center";
+            document.documentElement.style.background =
+                "linear-gradient(#E3EBEE, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e, #9982cf, #fdb5e9)";
+            document.documentElement.style.backgroundSize = "600% 600%";
+            document.documentElement.style.animation = "animateGradient 6s ease-in-out infinite";
+        }
 
         function decodeJwtResponse(token) {
             var base64Url = token.split('.')[1];

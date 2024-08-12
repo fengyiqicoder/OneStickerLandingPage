@@ -9,6 +9,17 @@
         content="OneSticker is a versatile note-taking app that syncs across all devices. Available for MacOS, Windows, iOS, Android, and as a Web App.">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+   
+    <script>
+        // 检测浏览器语言并在需要时重定向
+        (function() {
+            var language = navigator.language || navigator.userLanguage;
+            if (language.toLowerCase().startsWith('zh') && !window.location.pathname.endsWith('/cn')) {
+                window.location.href = window.location.origin + '/cn' + window.location.search;
+            }
+        })();
+    </script>
+    
     <style>
         body {
             background-color: #E3EBEE;

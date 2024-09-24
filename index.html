@@ -12,12 +12,12 @@
 
     <script>
         // 检测浏览器语言并在需要时重定向
-        (function () {
-            var language = navigator.language || navigator.userLanguage;
-            if (language.toLowerCase().startsWith('zh') && !window.location.pathname.endsWith('/cn')) {
-                window.location.href = window.location.origin + '/cn' + window.location.search;
-            }
-        })();
+        // (function () {
+        //     var language = navigator.language || navigator.userLanguage;
+        //     if (language.toLowerCase().startsWith('zh') && !window.location.pathname.endsWith('/cn')) {
+        //         window.location.href = window.location.origin + '/cn' + window.location.search;
+        //     }
+        // })();
     </script>
 
     <style>
